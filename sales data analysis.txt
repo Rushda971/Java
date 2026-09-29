@@ -1,0 +1,149 @@
+FINAL CLEAN & WORKING PANDAS ANALYSIS CODE
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# -----------------------------
+# BASIC METRICS
+# -----------------------------
+
+# Maximum profit
+max_sales = df['Total Profit'].max()
+print("Max Profit:", max_sales)
+
+# Total orders
+total_orders = df.shape[0]
+print("Total Orders:", total_orders)
+
+# Sum of important columns
+print(df[['Units Sold', 'Total Revenue', 'Total Cost', 'Total Profit']].sum())
+
+# -----------------------------
+# SALES ANALYSIS
+# -----------------------------
+
+# Highest revenue by item type
+print(df.groupby('Item Type')['Total Revenue']
+        .sum()
+        .sort_values(ascending=False))
+
+# Orders per country
+print(df['Country'].value_counts())
+
+# Average unit price & unit cost
+print(df[['Unit Price', 'Unit Cost']].mean())
+
+# Online vs Offline orders
+print(df['Sales Channel'].value_counts())
+
+# Average units sold per order
+print("Average Units Sold:", df['Units Sold'].mean())
+
+# -----------------------------
+# DATE & TIME ANALYSIS
+# -----------------------------
+
+# Convert dates
+df['Order Date'] = pd.to_datetime(df['Order Date'], errors='coerce')
+df['Ship Date'] = pd.to_datetime(df['Ship Date'], errors='coerce')
+
+print(df[['Order Date', 'Ship Date']].dtypes)
+
+# Year & Month
+df['Year'] = df['Order Date'].dt.year
+df['Month'] = df['Order Date'].dt.month
+
+# Monthly revenue
+monthly_revenue = df.groupby('Month')['Total Revenue'].sum()
+print(monthly_revenue)
+
+# Shipping days
+df['Shipping Days'] = (df['Ship Date'] - df['Order Date']).dt.days
+print("Average Shipping Days:", df['Shipping Days'].mean())
+
+# Shipping time by priority
+print(df.groupby('Order Priority')['Shipping Days'].mean())
+
+# -----------------------------
+# PROFIT ANALYSIS
+# -----------------------------
+
+# Profit margin
+df['Profit Margin'] = df['Total Profit'] / df['Total Revenue']
+
+# Average profit margin by region
+print(df.groupby('Region')['Profit Margin'].mean())
+
+# Loss making orders
+print(df[df['Total Profit'] < 0])
+
+# High profit orders
+print(df[df['Total Profit'] > 500000])
+
+# -----------------------------
+# REGION & COUNTRY ANALYSIS
+# -----------------------------
+
+# Region-wise cost per unit
+region_cost_per_unit = (
+    df.groupby('Region')['Total Cost'].sum() /
+    df.groupby('Region')['Units Sold'].sum()
+).sort_values()
+print(region_cost_per_unit)
+
+# Multiple aggregations
+print(df.groupby('Region').agg({
+    'Total Revenue': 'sum',
+    'Total Profit': 'sum',
+    'Units Sold': 'sum'
+}))
+
+# Revenue by region & sales channel
+print(df.groupby(['Region', 'Sales Channel'])['Total Revenue'].sum())
+
+# -----------------------------
+# TOP RECORDS
+# -----------------------------
+
+# Top 5 sales records
+top_5_sales = df.sort_values(by='Total Revenue', ascending=False).head(5)
+print(top_5_sales)
+
+# Top 3 countries by revenue
+print(df.groupby('Country')['Total Revenue'].sum().nlargest(3))
+
+# Missing values
+print(df.isnull().sum())
+
+📊 PANDAS PLOTTING (VERY IMPORTANT 🔥)
+1️⃣ Monthly Revenue Plot
+monthly_revenue.plot(kind='bar', title='Monthly Revenue')
+plt.xlabel('Month')
+plt.ylabel('Total Revenue')
+plt.show()
+
+2️⃣ Revenue by Sales Channel
+df.groupby('Sales Channel')['Total Revenue'].sum().plot(
+    kind='bar',
+    title='Revenue by Sales Channel'
+)
+plt.show()
+
+3️⃣ Profit by Region
+df.groupby('Region')['Total Profit'].sum().plot(
+    kind='bar',
+    title='Total Profit by Region'
+)
+plt.show()
+
+4️⃣ Top 5 Item Types by Revenue
+df.groupby('Item Type')['Total Revenue'] \
+  .sum() \
+  .sort_values(ascending=False) \
+  .head(5) \
+  .plot(kind='bar', title='Top 5 Item Types by Revenue')
+
+plt.show()
+
+5️⃣ Shipping Days Distribution
+df['Shipping Days'].plot(kind='hist', bins=20, title='Shipping Days Distribution')
+plt.show()

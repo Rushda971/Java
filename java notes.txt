@@ -1,0 +1,28 @@
+abstraction:
+1.kyu use karte hai:security
+2.yeh sirf imp and needed details show karta hai like data structure.
+yeh internal implementation ko hide karta hai how nhi batata what per chalta hai
+
+encapsulation:
+strict hota hai 
+
+
+interface:
+abstract class ko use karta hai
+java multiple inhertiance ko support nhi karta isliye interface use karte to rigid of dimond problemyeh what batata hai.
+
+
+inheritance:
+code reusable ho isliye
+no redundency
+well java works on the principle of "don't repeat yourself"(DRY) 
+yeh extend keyword ko use karta hai.
+
+Difference
+jaise inhertiance hai ismein ek class mein dusre class ko call karte hai .class ek real world entity hote hai aur usmein method us entity ka behaviour batate hai aur object entity ka state aur action batate hai where as 
+
+interface multiple inhertiance 
+ek class ko call karne ke liye extend use karte hai 
+interface durse interface ko call karne ke liye extend use karta hai
+
+iterface mei object create nhi hota hai were as class mein hota hai.

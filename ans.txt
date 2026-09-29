@@ -1,0 +1,79 @@
+import java.util.*;
+
+public class ContactApp {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        ArrayList<String> phoneno = new ArrayList<>();
+
+        while (true) {
+
+            System.out.println("\n1.Add Contact");
+            System.out.println("2.Search Name");
+            System.out.println("3.Delete Name");
+            System.out.println("4.Show All Names");
+            System.out.println("5.Exit");
+
+            System.out.print("Enter Choice: ");
+            int contact = sc.nextInt();
+            sc.nextLine(); // buffer clear
+
+            if (contact == 1) {
+
+                System.out.print("Enter Name to Add: ");
+                String name = sc.nextLine();
+
+                phoneno.add(name);
+
+                System.out.println("Contact Added Successfully");
+
+            }
+
+            else if (contact == 2) {
+
+                System.out.print("Enter Name to Search: ");
+                String name = sc.nextLine();
+
+                if (phoneno.contains(name)) {
+                    System.out.println(name + " Found");
+                } else {
+                    System.out.println(name + " Not Found");
+                }
+            }
+
+            else if (contact == 3) {
+
+                System.out.print("Enter Name to Delete: ");
+                String name = sc.nextLine();
+
+                if (phoneno.remove(name)) {
+                    System.out.println(name + " Deleted");
+                } else {
+                    System.out.println(name + " Not Found");
+                }
+            }
+
+            else if (contact == 4) {
+
+                Collections.sort(phoneno);
+
+                System.out.println("Contact List:");
+                System.out.println(phoneno);
+            }
+
+            else if (contact == 5) {
+
+                System.out.println("Program Closed");
+                break;
+            }
+
+            else {
+                System.out.println("Invalid Choice");
+            }
+        }
+
+        sc.close();
+    }
+}

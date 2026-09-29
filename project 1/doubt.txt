@@ -1,0 +1,6 @@
+setter kyu batatna padhta hai yeh this is name??
+becoz encapsultion mein variable private hote hai unko access karne ke through setter 
+we use this agar name mei variable diffrent hai tab this use karne ke zaroorat nhi hai...
+
+
+Getter mein variable "badha" kyun likhte hai?

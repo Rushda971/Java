@@ -1,0 +1,147 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# -----------------------------
+# LOAD DATA
+# -----------------------------
+df = pd.read_csv(r"D:\Students\mani\pandas\products-100 (1).csv")
+
+# Remove duplicate rows
+df = df.drop_duplicates()
+
+print("Dataset Shape:", df.shape)
+print(df.head())
+
+# -----------------------------
+# BASIC METRICS
+# -----------------------------
+
+# Maximum price
+max_price = df['Price'].max()
+print("Max Price:", max_price)
+
+# Total products
+total_products = df.shape[0]
+print("Total Products:", total_products)
+
+# Summary statistics
+print(df[['Price', 'Stock']].sum())
+
+# -----------------------------
+# PRODUCT ANALYSIS
+# -----------------------------
+
+# Products per category
+print(df['Category'].value_counts())
+
+# Average price per category
+print(df.groupby('Category')['Price'].mean())
+
+# Total stock per category
+print(df.groupby('Category')['Stock'].sum())
+
+# Supplier-wise product count
+print(df['Supplier'].value_counts())
+
+# Average price
+print("Average Price:", df['Price'].mean())
+
+# -----------------------------
+# INVENTORY ANALYSIS
+# -----------------------------
+
+# Low stock products
+print("Low stock products (Stock < 10):")
+print(df[df['Stock'] < 10])
+
+# High stock products
+print("High stock products (Stock > 100):")
+print(df[df['Stock'] > 100])
+
+# -----------------------------
+# CATEGORY & SUPPLIER ANALYSIS
+# -----------------------------
+
+# Total inventory value
+df['Inventory Value'] = df['Price'] * df['Stock']
+print("Total Inventory Value:", df['Inventory Value'].sum())
+
+# Inventory value by category
+print(df.groupby('Category')['Inventory Value'].sum())
+
+# Inventory value by supplier
+print(df.groupby('Supplier')['Inventory Value'].sum())
+
+# Multiple aggregations
+print(
+    df.groupby('Category').agg({
+        'Price': 'mean',
+        'Stock': 'sum',
+        'Inventory Value': 'sum'
+    })
+)
+
+# -----------------------------
+# TOP RECORDS
+# -----------------------------
+
+# Top 5 expensive products
+top_5_price = df.sort_values(by='Price', ascending=False).head(5)
+print(top_5_price)
+
+# Top 5 products by inventory value
+top_5_inventory = df.sort_values(
+    by='Inventory Value',
+    ascending=False
+).head(5)
+print(top_5_inventory)
+
+# Missing values
+print("Missing values:")
+print(df.isnull().sum())
+
+# -----------------------------
+# 📊 PANDAS PLOTTING (VERY IMPORTANT 🔥)
+# -----------------------------
+
+# 1️⃣ Products per Category
+df['Category'].value_counts().plot(
+    kind='bar',
+    title='Products per Category'
+)
+plt.xlabel('Category')
+plt.ylabel('Number of Products')
+plt.show()
+
+# 2️⃣ Average Price by Category
+df.groupby('Category')['Price'].mean().plot(
+    kind='bar',
+    title='Average Price by Category'
+)
+plt.ylabel('Average Price')
+plt.show()
+
+# 3️⃣ Inventory Value by Category
+df.groupby('Category')['Inventory Value'].sum().plot(
+    kind='bar',
+    title='Inventory Value by Category'
+)
+plt.ylabel('Inventory Value')
+plt.show()
+
+# 4️⃣ Top 5 Products by Price
+df.sort_values(by='Price', ascending=False) \
+  .head(5) \
+  .set_index('ProductName')['Price'] \
+  .plot(kind='bar', title='Top 5 Expensive Products')
+plt.ylabel('Price')
+plt.show()
+
+# 5️⃣ Stock Distribution
+df['Stock'].plot(
+    kind='hist',
+    bins=20,
+    title='Stock Distribution'
+)
+plt.xlabel('Stock')
+plt.show()

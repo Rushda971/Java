@@ -1,0 +1,3 @@
+Give me a final, clean, and fully working Pandas data analysis code.
+
+The code should:
